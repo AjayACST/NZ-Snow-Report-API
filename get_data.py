@@ -11,12 +11,6 @@ async def get_html(url, session):
         return False
 
 
-async def get_json(url, session):
-    async with session.get(url) as resp:
-        if resp.status == 200:
-            data = await resp.json()
-            return data
-        return False
 
 
 async def cardrona(session):
