@@ -2,6 +2,7 @@ import aiohttp
 import asyncio
 from bs4 import BeautifulSoup
 import pymongo
+import threading, time
 
 
 async def get_html(url, session):
@@ -24,6 +25,7 @@ async def deleteCard():
 
 
 async def cardrona(session):
+
     mycol = mydb["cardrona_data"]
 
     await deleteCard()
@@ -165,12 +167,16 @@ async def cardrona(session):
     id_data = x.inserted_id
     return id_data
 
+
+WAIT_TIME_SECONDS = 3600
+ticker = threading.Event()
+
 async def run_def():
     async with aiohttp.ClientSession() as session:
         print((await cardrona(session)))
 
 
 if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(run_def())
-    loop.close()
+    while not ticker.wait(WAIT_TIME_SECONDS):
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(run_def())
