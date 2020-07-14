@@ -3,6 +3,7 @@ import asyncio
 from bs4 import BeautifulSoup
 import pymongo
 import threading, time
+from datetime import datetime
 
 
 async def get_html(url, session):
@@ -23,8 +24,15 @@ async def deleteCard():
     x = mycol.delete_many({})
     return(x.deleted_count, " documents deleted.") 
 
+async def deleteTC():
+    mycol = mydb["treble_cone_data"]
+    x = mycol.delete_many({})
+    return(x.deleted_count, " documents deleted.")
+
 
 async def cardrona(session):
+
+    print(await treblecone(session))
 
     mycol = mydb["cardrona_data"]
 
@@ -37,6 +45,9 @@ async def cardrona(session):
     mes_data_data = {"data": []}
     wind_status_data_data = {"data": []}
     open_status_data_data = {"data": []}
+
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
 
     for report in soup.find_all("div", {"class": "c-snow-report__site"}):
         site_status = report.find("span", {"class": "c-snow-report__site-status"}).get_text()
@@ -64,102 +75,106 @@ async def cardrona(session):
         open_status_data_data["data"].append(open_status_data)
     
     import_data = { 
+        "data_updated": current_time,
         "serivce_open": [
             {
-                "service_name": "Resort", "status": site_status_data["data"][0]
+                "Resort": site_status_data["data"][0]
             }, 
             {
-                "service_name": "Lifts", "status": site_status_data["data"][1]
+                "Lifts": site_status_data["data"][1]
             }, 
             {
-                "service_name": "Road", "status": site_status_data["data"][2]
+                "Road": site_status_data["data"][2]
             }
         ],
         "weather": weather_desc,
         "outlook": outlook_desc,
         "todays_temp": [
             {
-                "position": "Upper 1860m", "temp": mes_data_data["data"][0]
+                "Upper 1860m": mes_data_data["data"][0]
             },
             {
-                "position": "Mid 1640m", "temp": mes_data_data["data"][1]
+                "Mid 1640m": mes_data_data["data"][1]
             },
             {
-                "position": "Lower 1260m", "temp": mes_data_data["data"][2]
+                "Lower 1260m": mes_data_data["data"][2]
             }
         ],
         "snow_level": [
             {
-                "position": "Upper 1860m", "snow_level": mes_data_data["data"][3]
+                "Upper 1860m": mes_data_data["data"][3]
             },
             {
-                "position": "Mid 1640m", "snow_level": mes_data_data["data"][4]
+                "Mid 1640m": mes_data_data["data"][4]
             },
             {
-                "position": "Lower 1260m", "snow_level": mes_data_data["data"][5]
+                "Lower 1260m": mes_data_data["data"][5]
             }
         ],
         "snowfall_last_7_days": mes_data_data["data"][6],
         "wind_status": [
             {
-                "position": "Upper 1860m", "wind_level": wind_status_data_data["data"][0]
+                "Upper 1860m": wind_status_data_data["data"][0]
             },
             {
-                "position": "Mid 1640m", "snow_level": wind_status_data_data["data"][1]
+                "Mid 1640m": wind_status_data_data["data"][1]
             },
             {
-                "position": "Lower 1260m", "snow_level": wind_status_data_data["data"][2]
+                "Lower 1260m": wind_status_data_data["data"][2]
             }
         ],
         "snow_condition": snow_condition_data,
         "open_status": [
             {
-                "lift": "McDougall's Chondola", "status": open_status_data_data["data"][0]
+                "McDougall's Chondola": open_status_data_data["data"][0]
             },
             {
-                "lift": "Whitestar Express", "status": open_status_data_data["data"][1]
+                "Whitestar Express": open_status_data_data["data"][1]
             },
             {
-                "lift": "Captain's Express", "status": open_status_data_data["data"][2]
+                "Valley View Quad": open_status_data_data["data"][2]
             },
             {
-                "lift": "Learner Conveyors", "status": open_status_data_data["data"][3]
+                "Captain's Express": open_status_data_data["data"][3]
             },
             {
-                "lift": "Kindy Conveyor", "status": open_status_data_data["data"][4]
+                "Learner Conveyors": open_status_data_data["data"][4] 
             },
             {
-                "food": "Mezz Café", "status": open_status_data_data["data"][5]
+                "Kindy Conveyor": open_status_data_data["data"][5]
             },
             {
-                "food": "The Lounge", "status": open_status_data_data["data"][6]
+                "Mezz Café": open_status_data_data["data"][6]
             },
             {
-                "food": "Noodle Bar", "status": open_status_data_data["data"][7]
+                "The Lounge": open_status_data_data["data"][7]
             },
             {
-                "food": "F&B Base Bar", "status": open_status_data_data["data"][8]
+                "Noodle Bar": open_status_data_data["data"][8]
             },
             {
-                "food": "Captain's Café", "status": open_status_data_data["data"][9]
+                "F&B Base Bar": open_status_data_data["data"][9]
             },
             {
-                "food": "Vista Bar", "status": open_status_data_data["data"][10]
+                "Captain's Café": open_status_data_data["data"][10]
             },
             {
-                "food": "F&B Base Café", "status": open_status_data_data["data"][11]
+                "Vista Bar": open_status_data_data["data"][11]
             },
             {
-                "food": "Stag Lane", "status": open_status_data_data["data"][12]
+                "F&B Base Café": open_status_data_data["data"][12]
             },
             {
-                "food": "Antlers Alley", "status": open_status_data_data["data"][13]
+                "Stag Lane": open_status_data_data["data"][13]
             },
             {
-                "food": "Lil' Bucks", "status": open_status_data_data["data"][14]
+                "Antlers Alley": open_status_data_data["data"][14]
             },
             {
-                "food": "Sightseeing", "status": open_status_data_data["data"][15]
+                "Lil' Bucks": open_status_data_data["data"][15]
+            },
+            {
+                "Sightseeing": open_status_data_data["data"][16]
             },
         ]
     }
@@ -167,6 +182,123 @@ async def cardrona(session):
     id_data = x.inserted_id
     return id_data
 
+async def treblecone(session):
+
+    mycol = mydb["treble_cone_data"]
+
+    await deleteTC()
+
+    url = "https://www.treblecone.com/mountain/snow-report/"
+    html = await get_html(url, session)
+    soup = BeautifulSoup(html, "lxml")
+    data_tc = {"data": []}
+
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+
+    for data in soup.find_all("div", {"class": "table__cell"}):
+        tc_data = data.get_text().replace("\n", "").strip()
+        data_tc["data"].append(tc_data)
+
+    import_data_tc = {
+        "data_updated": current_time,
+        "ski_field_status": data_tc["data"][1],
+        "snowfall": [
+                {
+                    "overnight_snowfall": data_tc["data"][5]
+                },
+                {
+                    "snowfall_24_hours": data_tc["data"][7]
+                },
+                {
+                    "snowfall_last_7_days": data_tc["data"][9]
+                },
+                {
+                    "last_snowfall_date": data_tc["data"][11]
+                },
+                {
+                    "last_snowfall_amount": data_tc["data"][13]
+                },
+            ],
+            "basin_snow_depth": data_tc["data"][15],
+            "saddle_snow_depth": data_tc["data"][17],
+            "live_temp": data_tc["data"][19],
+            "overnight_temp": data_tc["data"][21],
+            "open_status": [
+                {
+                    "home_basin_express": data_tc["data"][23]
+                },
+                {
+                    "saddle_quad_chair": data_tc["data"][25]
+                },
+                {
+                    "nice_n_easy_platter": data_tc["data"][27]
+                },
+                {
+                    "magic_carpet": data_tc["data"][29]
+                },
+                {
+                    "home_basin": data_tc["data"][31]
+                },
+                {
+                    "saddle_basin": data_tc["data"][33]
+                },
+                {
+                    "matukituki_basin": data_tc["data"][35]
+                },
+                {
+                    "motatapu_chutes": data_tc["data"][37]
+                },
+                {
+                    "summit_slopes": data_tc["data"][39]
+                },
+            ],
+            "grommed_status": [
+                {
+                    "easy_rider": data_tc["data"][41]
+                },
+                {
+                    "nice_n_easy": data_tc["data"][43]
+                },
+                {
+                    "big_skite": data_tc["data"][45]
+                },
+                {
+                    "raffills_run": data_tc["data"][47]
+                },
+                {
+                    "petes_treat": data_tc["data"][49]
+                },
+                {
+                    "tims_table": data_tc["data"][51]
+                },
+                {
+                    "high_street": data_tc["data"][53]
+                },
+                {
+                    "saddle_track": data_tc["data"][55]
+                }
+            ],
+            "road_status": data_tc["data"][57],
+            "chain_status": data_tc["data"][59],
+            "food_status": [
+                {
+                    "saddle_track": data_tc["data"][61]
+                },
+                {
+                    "grab_and_go": data_tc["data"][62]
+                },
+                {
+                    "the_southern_bbq": data_tc["data"][65]
+                },
+                {
+                    "allpress_at_altitued": data_tc["data"][67]
+                },
+            ]
+        }
+    x = mycol.insert_one(import_data_tc)
+    id_data = x.inserted_id
+    return id_data
 
 WAIT_TIME_SECONDS = 3600
 ticker = threading.Event()
@@ -177,6 +309,6 @@ async def run_def():
 
 
 if __name__ == "__main__":
-    while not ticker.wait(WAIT_TIME_SECONDS):
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(run_def())
+    #while not ticker.wait(WAIT_TIME_SECONDS):
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(run_def())
