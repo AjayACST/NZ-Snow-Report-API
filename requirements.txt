@@ -1,3 +1,5 @@
 aiohttp
 asyncio
 bs4
+pymongo
+flask
