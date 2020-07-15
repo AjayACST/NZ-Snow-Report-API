@@ -201,6 +201,7 @@ async def treblecone(session):
         tc_data = data.get_text().replace("\n", "").strip()
         data_tc["data"].append(tc_data)
 
+
     import_data_tc = {
         "data_updated": current_time,
         "ski_field_status": data_tc["data"][1],
@@ -274,26 +275,29 @@ async def treblecone(session):
                     "tims_table": data_tc["data"][51]
                 },
                 {
-                    "high_street": data_tc["data"][53]
+                    "bullet": data_tc["data"][53]
                 },
                 {
-                    "saddle_track": data_tc["data"][55]
+                    "high_street": data_tc["data"][55]
+                },
+                {
+                    "saddle_track": data_tc["data"][57]
                 }
             ],
-            "road_status": data_tc["data"][57],
-            "chain_status": data_tc["data"][59],
+            "road_status": data_tc["data"][59],
+            "chain_status": data_tc["data"][61],
             "food_status": [
                 {
-                    "saddle_track": data_tc["data"][61]
+                    "saddle_track": data_tc["data"][63]
                 },
                 {
-                    "grab_and_go": data_tc["data"][62]
+                    "grab_and_go": data_tc["data"][65]
                 },
                 {
-                    "the_southern_bbq": data_tc["data"][65]
+                    "the_southern_bbq": data_tc["data"][67]
                 },
                 {
-                    "allpress_at_altitued": data_tc["data"][67]
+                    "allpress_at_altitued": data_tc["data"][69]
                 },
             ]
         }
