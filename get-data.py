@@ -33,11 +33,11 @@ async def deleteTC():
 
 async def cardrona(session):
 
-    #print(await treblecone(session))
+    print(await treblecone(session))
 
     mycol = mydb["cardrona_data"]
 
-    #await deleteCard()
+    await deleteCard()
 
     url = "https://www.cardrona.com/winter/snow-report/"
     html = await get_html(url, session)
@@ -74,8 +74,6 @@ async def cardrona(session):
     for open_status in soup.find_all("td", {"class": "c-snow-report__table-status"}):
         open_status_data = open_status.get_text()
         open_status_data_data["data"].append(open_status_data)
-
-    return open_status_data_data
     
     import_data = {
         "data_updated": current_time,
