@@ -33,11 +33,11 @@ async def deleteTC():
 
 async def cardrona(session):
 
-    print(await treblecone(session))
+    #print(await treblecone(session))
 
     mycol = mydb["cardrona_data"]
 
-    await deleteCard()
+    #await deleteCard()
 
     url = "https://www.cardrona.com/winter/snow-report/"
     html = await get_html(url, session)
@@ -74,110 +74,44 @@ async def cardrona(session):
     for open_status in soup.find_all("td", {"class": "c-snow-report__table-status"}):
         open_status_data = open_status.get_text()
         open_status_data_data["data"].append(open_status_data)
+
+    return open_status_data_data
     
-    import_data = { 
+    import_data = {
         "data_updated": current_time,
-        "serivce_open": [
-            {
-                "Resort": site_status_data["data"][0]
-            }, 
-            {
-                "Lifts": site_status_data["data"][1]
-            }, 
-            {
-                "Road": site_status_data["data"][2]
-            }
-        ],
+        "Resort": site_status_data["data"][0],
+        "Lifts": site_status_data["data"][1],
+        "Road": site_status_data["data"][2],
         "weather": weather_desc,
         "outlook": outlook_desc,
-        "todays_temp": [
-            {
-                "Upper 1860m": mes_data_data["data"][0]
-            },
-            {
-                "Mid 1640m": mes_data_data["data"][1]
-            },
-            {
-                "Lower 1260m": mes_data_data["data"][2]
-            }
-        ],
-        "snow_level": [
-            {
-                "Upper 1860m": mes_data_data["data"][3]
-            },
-            {
-                "Mid 1640m": mes_data_data["data"][4]
-            },
-            {
-                "Lower 1260m": mes_data_data["data"][5]
-            }
-        ],
+        "Upper_1860m_Temp": mes_data_data["data"][0],
+        "Mid_1640m_Temp": mes_data_data["data"][1],
+        "Lower_1260m_Temp": mes_data_data["data"][2],
+        "Upper_1860m_Snow": mes_data_data["data"][3],
+        "Mid_1640m_Snow": mes_data_data["data"][4],
+        "Lower_1260m_Snow": mes_data_data["data"][5],
         "snowfall_last_7_days": mes_data_data["data"][6],
-        "wind_status": [
-            {
-                "Upper 1860m": wind_status_data_data["data"][0]
-            },
-            {
-                "Mid 1640m": wind_status_data_data["data"][1]
-            },
-            {
-                "Lower 1260m": wind_status_data_data["data"][2]
-            }
-        ],
+        "Upper_1860m_Wind": wind_status_data_data["data"][0],
+        "Mid_1640m_Wind": wind_status_data_data["data"][1],
+        "Lower_1260m_Wind": wind_status_data_data["data"][2],
         "snow_condition": snow_condition_data,
-        "open_status": [
-            {
-                "McDougall's Chondola": open_status_data_data["data"][0]
-            },
-            {
-                "Whitestar Express": open_status_data_data["data"][1]
-            },
-            {
-                "Valley View Quad": open_status_data_data["data"][2]
-            },
-            {
-                "Captain's Express": open_status_data_data["data"][3]
-            },
-            {
-                "Learner Conveyors": open_status_data_data["data"][4] 
-            },
-            {
-                "Kindy Conveyor": open_status_data_data["data"][5]
-            },
-            {
-                "Mezz Café": open_status_data_data["data"][6]
-            },
-            {
-                "The Lounge": open_status_data_data["data"][7]
-            },
-            {
-                "Noodle Bar": open_status_data_data["data"][8]
-            },
-            {
-                "F&B Base Bar": open_status_data_data["data"][9]
-            },
-            {
-                "Captain's Café": open_status_data_data["data"][10]
-            },
-            {
-                "Vista Bar": open_status_data_data["data"][11]
-            },
-            {
-                "F&B Base Café": open_status_data_data["data"][12]
-            },
-            {
-                "Stag Lane": open_status_data_data["data"][13]
-            },
-            {
-                "Antlers Alley": open_status_data_data["data"][14]
-            },
-            {
-                "Lil' Bucks": open_status_data_data["data"][15]
-            },
-            {
-                "Sightseeing": open_status_data_data["data"][16]
-            },
-        ]
+        "McDougalls_Chondola": open_status_data_data["data"][0],
+        "Whitestar_Express": open_status_data_data["data"][1],
+        "Valley_View_Quad": open_status_data_data["data"][2],
+        "Captains_Express": open_status_data_data["data"][3],
+        "Learner_Conveyors": open_status_data_data["data"][4],
+        "Kindy_Conveyor": open_status_data_data["data"][5],
+        "Mezz_Cafe": open_status_data_data["data"][6],
+        "The_Lounge": open_status_data_data["data"][7],
+        "Noodle_Bar": open_status_data_data["data"][8],
+        "FB_Base_Bar": open_status_data_data["data"][9],
+        "Captains_Cafe": open_status_data_data["data"][10],
+        "Vista_Bar": open_status_data_data["data"][11],
+        "FB_Base_Cafe": open_status_data_data["data"][12],
+        "Stag_Lane": open_status_data_data["data"][13],
+        "Antlers_Alley": open_status_data_data["data"][14],
+        "Lil_Bucks": open_status_data_data["data"][15],
+        "Sightseeing": open_status_data_data["data"][16]
     }
     x = mycol.insert_one(import_data)
     id_data = x.inserted_id
@@ -205,101 +139,38 @@ async def treblecone(session):
     import_data_tc = {
         "data_updated": current_time,
         "ski_field_status": data_tc["data"][1],
-        "snowfall": [
-                {
-                    "overnight_snowfall": data_tc["data"][5]
-                },
-                {
-                    "snowfall_24_hours": data_tc["data"][7]
-                },
-                {
-                    "snowfall_last_7_days": data_tc["data"][9]
-                },
-                {
-                    "last_snowfall_date": data_tc["data"][11]
-                },
-                {
-                    "last_snowfall_amount": data_tc["data"][13]
-                },
-            ],
-            "basin_snow_depth": data_tc["data"][15],
-            "saddle_snow_depth": data_tc["data"][17],
-            "live_temp": data_tc["data"][19],
-            "overnight_temp": data_tc["data"][21],
-            "open_status": [
-                {
-                    "home_basin_express": data_tc["data"][23]
-                },
-                {
-                    "saddle_quad_chair": data_tc["data"][25]
-                },
-                {
-                    "nice_n_easy_platter": data_tc["data"][27]
-                },
-                {
-                    "magic_carpet": data_tc["data"][29]
-                },
-                {
-                    "home_basin": data_tc["data"][31]
-                },
-                {
-                    "saddle_basin": data_tc["data"][33]
-                },
-                {
-                    "matukituki_basin": data_tc["data"][35]
-                },
-                {
-                    "motatapu_chutes": data_tc["data"][37]
-                },
-                {
-                    "summit_slopes": data_tc["data"][39]
-                },
-            ],
-            "grommed_status": [
-                {
-                    "easy_rider": data_tc["data"][41]
-                },
-                {
-                    "nice_n_easy": data_tc["data"][43]
-                },
-                {
-                    "big_skite": data_tc["data"][45]
-                },
-                {
-                    "raffills_run": data_tc["data"][47]
-                },
-                {
-                    "petes_treat": data_tc["data"][49]
-                },
-                {
-                    "tims_table": data_tc["data"][51]
-                },
-                {
-                    "bullet": data_tc["data"][53]
-                },
-                {
-                    "high_street": data_tc["data"][55]
-                },
-                {
-                    "saddle_track": data_tc["data"][57]
-                }
-            ],
-            "road_status": data_tc["data"][59],
-            "chain_status": data_tc["data"][61],
-            "food_status": [
-                {
-                    "saddle_track": data_tc["data"][63]
-                },
-                {
-                    "grab_and_go": data_tc["data"][65]
-                },
-                {
-                    "the_southern_bbq": data_tc["data"][67]
-                },
-                {
-                    "allpress_at_altitued": data_tc["data"][69]
-                },
-            ]
+        "overnight_snowfall": data_tc["data"][5],
+        "snowfall_24_hrs": data_tc["data"][7],
+        "snowfall_7_days": data_tc["data"][9],
+        "last_snowfall_data": data_tc["data"][11],
+        "last_snowfall_amount": data_tc["data"][13],
+        "home_basin_snow_depth": data_tc["data"][15],
+        "saddle_basin_depth": data_tc["data"][17],
+        "live_temp": data_tc["data"][19],
+        "overnight_temp": data_tc["data"][21],
+        "home_basin_chair_status": data_tc["data"][23],
+        "saddle_quad_chair_status": data_tc["data"][25],
+        "nice_n_easy_status": data_tc["data"][27],
+        "magic_carpet_status": data_tc["data"][29],
+        "home_basin_status": data_tc["data"][31],
+        "saddle_basin_status": data_tc["data"][33],
+        "matukituki_basin_status": data_tc["data"][35],
+        "motatapu_chutes_status": data_tc["data"][37],
+        "summit_slopes_status": data_tc["data"][39],
+        "easy_rider_groomed": data_tc["data"][41],
+        "nice_n_easy_grommed": data_tc["data"][43],
+        "raffils_run_grommed": data_tc["data"][45],
+        "petes_treat_groomed": data_tc["data"][47],
+        "south_ridge_wide_guid": data_tc["data"][49],
+        "tims_table_groomed": data_tc["data"][51],
+        "high_street_groomed": data_tc["data"][53],
+        "saddle_track_groomed": data_tc["data"][55],
+        "road_status": data_tc["data"][57],
+        "chain_status": data_tc["data"][59],
+        "bar_status": data_tc["data"][61],
+        "grab_and_go_status": data_tc["data"][63],
+        "the_southern_bbq": data_tc["data"][65],
+        "allpress_at_altitude": data_tc["data"][67],
         }
     x = mycol.insert_one(import_data_tc)
     id_data = x.inserted_id
