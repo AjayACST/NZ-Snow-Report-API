@@ -133,8 +133,45 @@ async def treblecone(session):
         tc_data = data.get_text().replace("\n", "").strip()
         data_tc["data"].append(tc_data)
 
-
-    import_data_tc = {
+    if data_tc["data"][40] == "No trails are currently groomed.":
+        import_data_tc = {
+        "data_updated": current_time,
+        "ski_field_status": data_tc["data"][1],
+        "overnight_snowfall": data_tc["data"][5],
+        "snowfall_24_hrs": data_tc["data"][7],
+        "snowfall_7_days": data_tc["data"][9],
+        "last_snowfall_data": data_tc["data"][11],
+        "last_snowfall_amount": data_tc["data"][13],
+        "home_basin_snow_depth": data_tc["data"][15],
+        "saddle_basin_depth": data_tc["data"][17],
+        "live_temp": data_tc["data"][19],
+        "overnight_temp": data_tc["data"][21],
+        "home_basin_chair_status": data_tc["data"][23],
+        "saddle_quad_chair_status": data_tc["data"][25],
+        "nice_n_easy_status": data_tc["data"][27],
+        "magic_carpet_status": data_tc["data"][29],
+        "home_basin_status": data_tc["data"][31],
+        "saddle_basin_status": data_tc["data"][33],
+        "matukituki_basin_status": data_tc["data"][35],
+        "motatapu_chutes_status": data_tc["data"][37],
+        "summit_slopes_status": data_tc["data"][39],
+        "easy_rider_groomed": "No data available.",
+        "nice_n_easy_grommed": "No data available.",
+        "raffils_run_grommed": "No data available.",
+        "petes_treat_groomed": "No data available.",
+        "south_ridge_wide_guid": "No data available.",
+        "tims_table_groomed": "No data available.",
+        "high_street_groomed": "No data available.",
+        "saddle_track_groomed": "No data available.",
+        "road_status": data_tc["data"][41],
+        "chain_status": data_tc["data"][43],
+        "bar_status": data_tc["data"][45],
+        "grab_and_go_status": data_tc["data"][47],
+        "the_southern_bbq": data_tc["data"][49],
+        "allpress_at_altitude": data_tc["data"][51],
+        }
+    else:
+         import_data_tc = {
         "data_updated": current_time,
         "ski_field_status": data_tc["data"][1],
         "overnight_snowfall": data_tc["data"][5],
@@ -185,4 +222,4 @@ async def run_def():
 if __name__ == "__main__":
     while not ticker.wait(WAIT_TIME_SECONDS):
         loop = asyncio.get_event_loop()
-        loop.run_until_complete(run_def())
+        loop.run_until_complete(run_def())`
