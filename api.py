@@ -1,14 +1,19 @@
 import flask
 from flask import jsonify
 import pymongo
+import json
+
+
+with open("config.json") as json_data_file:
+    config = json.load(json_data_file)
 
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
-myclient = pymongo.MongoClient("mongodb+srv://apiuser:gFnQX2F7gfrbe1RS@nz-snow-api.68ddg.azure.mongodb.net/<dbname>?retryWrites=true&w=majority")
+myclient = pymongo.MongoClient(config["mongodb"]["URI"])
 
 
-mydb = myclient["nzsnowapi"]
+mydb = myclient[config["mongodb"]["mongodb"]]
 
 
 
