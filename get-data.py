@@ -221,7 +221,7 @@ async def treblecone(session):
     id_data = x.inserted_id
     return id_data
 
-WAIT_TIME_SECONDS = 3600
+WAIT_TIME_SECONDS = 900
 ticker = threading.Event()
 
 async def run_def():
