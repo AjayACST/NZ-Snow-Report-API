@@ -83,7 +83,7 @@ async def cardrona(session):
             "data_updated": current_time,
             "Resort": site_status_data["data"][0],
             "Lifts": site_status_data["data"][1],
-            "Road": site_status_data["data"][2],
+            "Road": site_status_data["data"][3],
             "weather": weather_desc,
             "outlook": outlook_desc,
             "Upper_1860m_Temp": mes_data_data["data"][0],
@@ -173,12 +173,12 @@ async def treblecone(session):
             "saddle_back_groomed": "No data available.",
             "high_street_groomed": "No data available.",
             "saddle_track_groomed": "No data available.",
-            "road_status": data_tc["data"][41],
-            "chain_status": data_tc["data"][43],
-            "bar_status": data_tc["data"][45],
-            "grab_and_go_status": data_tc["data"][47],
-            "the_southern_bbq": data_tc["data"][49],
-            "allpress_at_altitude": data_tc["data"][51],
+            "road_status": data_tc["data"][43],
+            "chain_status": data_tc["data"][45],
+            "bar_status": data_tc["data"][47],
+            "grab_and_go_status": data_tc["data"][49],
+            "the_southern_bbq": data_tc["data"][51],
+            "allpress_at_altitude": data_tc["data"][53],
             }
         except IndexError:
             pass
@@ -238,6 +238,6 @@ async def run_def():
 
 
 if __name__ == "__main__":
-    while not ticker.wait(WAIT_TIME_SECONDS):
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(run_def())
+    #while not ticker.wait(WAIT_TIME_SECONDS):
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(run_def())
