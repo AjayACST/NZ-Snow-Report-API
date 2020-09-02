@@ -83,7 +83,7 @@ async def cardrona(session):
             "data_updated": current_time,
             "Resort": site_status_data["data"][0],
             "Lifts": site_status_data["data"][1],
-            "Road": site_status_data["data"][3],
+            "Road": site_status_data["data"][2],
             "weather": weather_desc,
             "outlook": outlook_desc,
             "Upper_1860m_Temp": mes_data_data["data"][0],
