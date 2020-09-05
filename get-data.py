@@ -81,6 +81,7 @@ async def cardrona(session):
     try:
         if len(site_status_data["data"]) == 4:
             import_data = {
+            "data": True,
             "data_updated": current_time,
             "Resort": site_status_data["data"][0],
             "Lifts": site_status_data["data"][1],
@@ -118,6 +119,7 @@ async def cardrona(session):
             }
         else:
             import_data = {
+            "data": True,
             "data_updated": current_time,
             "Resort": site_status_data["data"][0],
             "Lifts": site_status_data["data"][1],
@@ -180,6 +182,7 @@ async def treblecone(session):
     if data_tc["data"][40] == "No trails are currently groomed.":
         try:
             import_data_tc = {
+            "data": True,
             "data_updated": current_time,
             "ski_field_status": data_tc["data"][1],
             "overnight_snowfall": data_tc["data"][5],
@@ -223,6 +226,7 @@ async def treblecone(session):
     else:
         try:
             import_data_tc = {
+            "data": True,
             "data_updated": current_time,
             "ski_field_status": data_tc["data"][1],
             "overnight_snowfall": data_tc["data"][5],
@@ -276,6 +280,6 @@ async def run_def():
 
 
 if __name__ == "__main__":
-    while not ticker.wait(WAIT_TIME_SECONDS):
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(run_def())
+    #while not ticker.wait(WAIT_TIME_SECONDS):
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(run_def())
