@@ -2,13 +2,15 @@ import flask
 from flask import jsonify
 import pymongo
 import json
+import flask_monitoringdashboard as dashboard
 
 
 with open("config.json") as json_data_file:
     config = json.load(json_data_file)
 
-
 app = flask.Flask(__name__)
+dashboard.config.init_from(file='config-dash.cfg')
+dashboard.bind(app)
 app.config["DEBUG"] = True
 myclient = pymongo.MongoClient(config["mongodb"]["URI"])
 
