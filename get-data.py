@@ -79,7 +79,45 @@ async def cardrona(session):
         open_status_data = open_status.get_text()
         open_status_data_data["data"].append(open_status_data)
     try:
-        import_data = {
+        if len(site_status_data["data"]) == 4:
+            import_data = {
+            "data_updated": current_time,
+            "Resort": site_status_data["data"][0],
+            "Lifts": site_status_data["data"][1],
+            "Road": site_status_data["data"][3],
+            "weather": weather_desc,
+            "outlook": outlook_desc,
+            "Upper_1860m_Temp": mes_data_data["data"][0],
+            "Mid_1640m_Temp": mes_data_data["data"][1],
+            "Lower_1260m_Temp": mes_data_data["data"][2],
+            "Upper_1860m_Snow": mes_data_data["data"][3],
+            "Mid_1640m_Snow": mes_data_data["data"][4],
+            "Lower_1260m_Snow": mes_data_data["data"][5],
+            "snowfall_last_7_days": mes_data_data["data"][6],
+            "Upper_1860m_Wind": wind_status_data_data["data"][0],
+            "Mid_1640m_Wind": wind_status_data_data["data"][1],
+            "Lower_1260m_Wind": wind_status_data_data["data"][2],
+            "snow_condition": snow_condition_data,
+            "McDougalls_Chondola": open_status_data_data["data"][0],
+            "Whitestar_Express": open_status_data_data["data"][1],
+            "Valley_View_Quad": open_status_data_data["data"][2],
+            "Captains_Express": open_status_data_data["data"][3],
+            "Learner_Conveyors": open_status_data_data["data"][4],
+            "Kindy_Conveyor": open_status_data_data["data"][5],
+            "Mezz_Cafe": open_status_data_data["data"][6],
+            "The_Lounge": open_status_data_data["data"][7],
+            "Noodle_Bar": open_status_data_data["data"][8],
+            "FB_Base_Bar": open_status_data_data["data"][9],
+            "Captains_Cafe": open_status_data_data["data"][10],
+            "Vista_Bar": open_status_data_data["data"][11],
+            "FB_Base_Cafe": open_status_data_data["data"][12],
+            "Stag_Lane": open_status_data_data["data"][13],
+            "Antlers_Alley": open_status_data_data["data"][14],
+            "Lil_Bucks": open_status_data_data["data"][15],
+            "Sightseeing": open_status_data_data["data"][16]
+            }
+        else:
+            import_data = {
             "data_updated": current_time,
             "Resort": site_status_data["data"][0],
             "Lifts": site_status_data["data"][1],
@@ -114,7 +152,7 @@ async def cardrona(session):
             "Antlers_Alley": open_status_data_data["data"][14],
             "Lil_Bucks": open_status_data_data["data"][15],
             "Sightseeing": open_status_data_data["data"][16]
-        }
+            }
     except IndexError:
         pass
     x = mycol.insert_one(import_data)
