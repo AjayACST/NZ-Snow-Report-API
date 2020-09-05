@@ -276,6 +276,6 @@ async def run_def():
 
 
 if __name__ == "__main__":
-    #while not ticker.wait(WAIT_TIME_SECONDS):
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(run_def())
+    while not ticker.wait(WAIT_TIME_SECONDS):
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(run_def())
