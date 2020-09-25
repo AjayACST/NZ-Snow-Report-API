@@ -130,3 +130,5 @@ dmypy.json
 
 # Config File
 config.json
+flask_monitoringdashboard.db
+config-dash.cfg

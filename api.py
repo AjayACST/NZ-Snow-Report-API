@@ -2,13 +2,15 @@ import flask
 from flask import jsonify
 import pymongo
 import json
+import flask_monitoringdashboard as dashboard
 
 
 with open("config.json") as json_data_file:
     config = json.load(json_data_file)
 
-
 app = flask.Flask(__name__)
+dashboard.config.init_from(file='config-dash.cfg')
+dashboard.bind(app)
 app.config["DEBUG"] = True
 myclient = pymongo.MongoClient(config["mongodb"]["URI"])
 
@@ -26,15 +28,25 @@ def home():
 def api_cardrona():
     mycol = mydb["cardrona_data"]
     get_data = mycol.find_one({}, {'_id': False})
+    if get_data == None:
+        mycol = mydb["null_fallback_card"]
+        get_data = mycol.find_one({}, {'_id': False})
+        return jsonify(get_data)
     return jsonify(get_data)
 
 @app.route('/treblecone', methods=['GET'])
 def api_treblecone():
     mycol = mydb["treble_cone_data"]
     get_data = mycol.find_one({}, {'_id': False})
+    if get_data == None:
+        mycol = mydb["null_fallback_tc"]
+        get_data = mycol.find_one({}, {'_id': False})
+        return jsonify(get_data)
     return jsonify(get_data)
 
 @app.errorhandler(404)
 def page_not_found(e):
     return "<h1>404</h1><p>The resource could not be found.</p>", 404
 
+if __name__ == "__main__":
+    app.run(host='0.0.0.0')
