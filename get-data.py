@@ -138,12 +138,11 @@ async def treblecone(session):
     for data in soup.find_all("div", {"class": "table__cell"}):
         tc_data = data.get_text().replace("\n", "").strip()
         data_tc["data"].append(tc_data)
-
     if data_tc["data"][40] == "No trails are currently groomed.":
         try:
             import_data_tc = {
             "data_updated": current_time,
-            "ski_field_status": data_tc["data"][1],
+            "ski_field_status": data_tc["data"][3],
             "overnight_snowfall": data_tc["data"][5],
             "snowfall_24_hrs": data_tc["data"][7],
             "snowfall_7_days": data_tc["data"][9],
@@ -186,7 +185,7 @@ async def treblecone(session):
         try:
             import_data_tc = {
             "data_updated": current_time,
-            "ski_field_status": data_tc["data"][1],
+            "ski_field_status": data_tc["data"][3],
             "overnight_snowfall": data_tc["data"][5],
             "snowfall_24_hrs": data_tc["data"][7],
             "snowfall_7_days": data_tc["data"][9],
@@ -234,7 +233,7 @@ ticker = threading.Event()
 
 async def run_def():
     async with aiohttp.ClientSession() as session:
-        print((await cardrona(session)))
+        print((await treblecone(session)))
 
 
 if __name__ == "__main__":
