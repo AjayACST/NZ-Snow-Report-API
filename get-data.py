@@ -183,6 +183,7 @@ async def treblecone(session):
     if data_tc["data"][40] == "No trails are currently groomed.":
         try:
             import_data_tc = {
+            "data": "True",
             "data_updated": current_time,
             "ski_field_status": data_tc["data"][3],
             "overnight_snowfall": data_tc["data"][5],
