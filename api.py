@@ -44,6 +44,19 @@ def api_treblecone():
         return jsonify(get_data)
     return jsonify(get_data)
 
+@app.route('/widget', methods=['GET'])
+def api_widget():
+    mycoltc = mydb["treble_cone_data"]
+    mycolcard = mydb["cardrona_data"]
+    get_datatc = mycoltc.find_one({}, {'_id': False})
+    get_datacard = mycolcard.find_one({}, {'_id': False})
+    get_datatc.update(get_datacard)
+    # if get_data == None:
+    #     mycol = mydb["null_fallback_tc"]
+    #     get_data = mycol.find_one({}, {'_id': False})
+    #     return jsonify(get_data)
+    return jsonify(get_datatc)
+
 @app.errorhandler(404)
 def page_not_found(e):
     return "<h1>404</h1><p>The resource could not be found.</p>", 404
